@@ -1,0 +1,12 @@
+Start out with Murphy's law and its two corrolaries:
+* cor 1: if a feature is not tested it's broken
+* cor 2: if a feature is not *automatically* tested it's broken the moment a change is made *anywhere* in the code
+  - can be alleviated by compartmentalizing code
+
+- test pyramid (specificity)
+- sqrt example
+- maybe combinatorics example and interesting statistics x % of errors are due to a combination of features
+
+
+- talk about SAP and how customers would find any bug
+- talk about unit testing (pure unit testing vs. testing actual "units")
