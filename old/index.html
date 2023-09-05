@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="twocols.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+               <h3>Main premise (Murphy's law)</h3>
+               <blockquote cite="https://en.wikipedia.org/wiki/Murphy%27s_law">
+                  <small>
+                     Anything that can go wrong will go wrong
+                     <p class="fragment highlight-red">(and at the worst possible time)</p>
+                  </small>
+              </blockquote>
+              <img src="1280px-Rocket_sled_track.jpg"  height="200">
+            </section>
+
+            <section>
+               <h3>Corolaries</h3>
+               <blockquote>
+                  <small>
+                     Any feature that is not tested is broken. 
+                  </small>
+              </blockquote>
+              <blockquote class="fragment fade-in">
+                  <small>
+                     <p>Any feature that is tested manually is broken the moment changes are made
+                     <span class="fragment highlight-red">(anywhere in the code)</span></p>
+                  </small>
+              </blockquote>
+              <a href="https://www.simscale.com/blog/nasa-mars-climate-orbiter-metric/">
+              <img src="MarsClimateOrbiter.jpg"  height="200">
+              </a>
+              <h4 class="fragment fade-in">
+                 Solution: automated testing
+              </h4>
+            </section>
+            <section>
+               <h3>Challenges I: Comprehensive tests</h3>
+               Test legacy code for $1/\sqrt{x}$
+               <pre><code data-trim data-noescape class="language-cpp">
+float Q_rsqrt( float number )
+{
+ long i; float x2, y; const float threehalfs = 1.5F;
+ x2 = number * 0.5F;
+ y  = number;
+ // evil floating point bit level hacking
+ i  = * ( long * ) &y;
+// what the fuck?
+ i  = 0x5f3759df - ( i >> 1 );
+ y  = * ( float * ) &i;
+ y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+// y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+ return y;
+}
+               </code></pre>
+            </section>
+            <section>
+               <h3>Comprehensive tests - continued</h3>
+              <img src="1oversqrtx.gif"  style="height: 180px; margin: 0 4rem auto auto; background: transparent;" >
+					<ul>
+                  <li>Testing all values: not feasible</li>
+						<li>Equivalence classes and their boundaries</li>
+						<li>Problem dependent</li>
+						<li>Implementation dependent</li>
+					</ul>
+            </section>
+
+            <section>
+               <h3>Challenges II: Combinations of parameters</h3>
+               <img src="combinatorial_pairwise_testing.jpg"  style="height: 180px; margin: 0 4rem auto auto; background: transparent;" >
+					<ul>
+                  <li>Most problems come from combination of not more than two parameters</li>
+                  <li>Don't test all combinations</li>
+                  <li>Test all pairs of combinations</li>
+					</ul>
+            </section>
+
+            <section>
+               <h3>Challenges III: sensitivity vs. specificity</h3>
+					<ul>
+                  <li>Sensitive tests are usually not specifice</li>
+                  <li>and vice versa</li>
+                  <li>Setfos: ~700 integration tests</li>
+					</ul>
+            </section>
+ 
+            <section>
+               <h3>Automated testing</h3>
+              <a href="https://www.crispy-engineering.com/p/why-test-diamond-model-makes-sense">
+              <img src="test_diamond.jpg"  height="400">
+              </a>
+            </section>
+            <section>
+               <h3>Unit test</h3>
+               <div class="row">
+                 <div class="column">
+                     <video height=300 data-autoplay src="twounittests.mp4"></video>
+                 </div>
+                 <div class="column">
+                     <ul>
+                        <small>
+                        <li>Testing individual units (e.g. inverse sqrt)</li>
+                        <li class="fragment highlight-green">Highly specific</li>
+                        <li class="fragment highlight-green">Easy to write</li>
+                        <li class="fragment highlight-red">Units not isolated</li>
+                        <li class="fragment highlight-red">Does not test integration</li>
+                        <li>134 unit tests in setfos kernel + GUI tests</li>
+                        </small>
+                     </ul>
+                 </div>
+               </div>
+            </section>
+            <section>
+               <h3>Integration tests</h3>
+               <ul>
+                  <li>In setfos: run simulations and compare to reference results</li>
+                  <li>~730 integration tests</li>
+                  <li class="fragment highlight-green">Highly sensitive</li>
+                  <li class="fragment highlight-red">Not very specific</li>
+               </ul>
+            </section>
+            <section>
+               <h3>End-to-end tests/manual tests</h3>
+               <ul>
+                  <li>E2E tests very hard to automate</li>
+                  <li>In setfos, all are done manually</li>
+                  <li>Installation tests/run individual simulations for each hotfix</li>
+                  <li>Internal customers</li>
+               </ul>
+            </section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+      <script src="plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom, RevealMath.KaTeX  ]
+			});
+		</script>
+	</body>
+</html>

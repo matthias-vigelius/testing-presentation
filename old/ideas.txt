@@ -10,3 +10,9 @@ Start out with Murphy's law and its two corrolaries:
 
 - talk about SAP and how customers would find any bug
 - talk about unit testing (pure unit testing vs. testing actual "units")
+
+Notes:
+- mars climate orbiter: kilo pounds per square feet
+- automated GUI testing: someone logs into the test server remotely, changes the screen resolution (involuntarily), etc..
+- equivalence classes: two items might belong to the same equivalence class in the model but not in code!
+- monkeys on typewriters joke..

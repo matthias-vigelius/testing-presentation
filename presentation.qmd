@@ -1,0 +1,13 @@
+---
+title: "Testing Setfos"
+format:
+  revealjs: 
+    slide-number: true
+    theme: moon
+    preview-links: auto
+    logo: images/fluxim.png
+    embed-resources: true
+resources:
+  - performance_optimization.pdf
+---
+
