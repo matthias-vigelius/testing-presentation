@@ -11,3 +11,128 @@ resources:
   - performance_optimization.pdf
 ---
 
+# Why testing?
+
+## Murphy's law
+
+> Anything that can go wrong will go wrong
+>
+> [(and at the worst possible time)]{style="color: red;"}
+
+![](images/1280px-Rocket_sled_track.jpg){fig-align="center" height="400"}
+
+## Corollaries {.smaller}
+> Any feature that is not tested is broken.
+
+::: {.fragment}
+> Any feature that is tested manually is broken the moment changes are made
+>
+> [(anywhere in the code)]{style="color: red;"}
+:::
+
+::: {.fragment}
+![](images/MarsClimateOrbiter.jpg){fig-align="center" height="300"}
+:::
+
+# Automated testing
+
+## Challenges I: Comprehensive tests
+Test legacy code for inverse sqrt
+
+```cpp
+float Q_rsqrt( float number )
+{
+ long i; float x2, y; const float threehalfs = 1.5F;
+ x2 = number * 0.5F;
+ y  = number;
+ // evil floating point bit level hacking
+ i  = * ( long * ) &y;
+// what the fuck?
+ i  = 0x5f3759df - ( i >> 1 );
+ y  = * ( float * ) &i;
+ y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+// y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration
+ return y;
+}
+```
+
+## Comprehensive tests - continued
+::: columns
+::: {.column width="55%"}
+   * Testing all values: not feasible
+   * Equivalence classes and their boundaries
+   * Problem dependent
+   * Implementation dependent
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="32%"}
+![](images/1oversqrtx.gif){fig-align="center" width="600"}
+:::
+:::
+
+## Challenges II: Combinations of parameters
+::: columns
+::: {.column width="55%"}
+![](images/combinatorial_pairwise_testing.jpg){fig-align="center" width="600"}
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="32%"}
+   * Most problems come from combination of not more than two parameters
+   * Don't test all combinations
+   * Test all pairs of combinations
+
+:::
+:::
+
+## Challenges III: sensitivity vs. specificity
+* Sensitive tests are usually not specific
+* and vice versa
+* Setfos: ~700 integration tests
+
+# Types of tests
+
+## Unit test {.smaller}
+::: columns
+::: {.column width="55%"}
+![](images/twounittests.mp4)
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="32%"}
+Unit test: Testing individual units (e.g. inverse sqrt method)
+
+   * [Highly specific]{style="color: green;"}
+   * [Easy to write]{style="color: green;"}
+   * [Units not isolated]{style="color: red;"}
+   * [Does not test integration]{style="color: red;"}
+
+[134 unit tests in setfos kernel + GUI tests]{style="color: yellow;"}
+:::
+:::
+
+## Integration tests
+
+* In setfos: run simulations and compare to reference results
+* ~730 integration tests
+* [Highly sensitive]{style="color: green;"}
+* [Not very specific]{style="color: red;"}
+
+## End-to-end tests/manual tests
+
+* E2E tests very hard to automate
+* In setfos, all are done manually
+* Installation tests/run individual simulations for each hotfix
+* Internal customers
+
+## Automated testing
+![](images/test_diamond.jpg){fig-align="center" width="600"}
+
+
