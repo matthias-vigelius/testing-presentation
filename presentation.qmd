@@ -91,9 +91,9 @@ float Q_rsqrt( float number )
 :::
 
 ## Challenges III: sensitivity vs. specificity
-* Sensitive tests are usually not specific
-* and vice versa
-* Setfos: ~700 integration tests
+* Sensitivity: if something is broken at least on test complains
+* Specificity: if something is broken only a few tests complain
+* Usually contradictory goals 
 
 # Types of tests
 
@@ -131,6 +131,12 @@ Unit test: Testing individual units (e.g. inverse sqrt method)
 * In setfos, all are done manually
 * Installation tests/run individual simulations for each hotfix
 * Internal customers
+
+## GUI
+* Architecture unit tests: test dependency of components (workspace, results, etc.)
+* Parser + serialization tests
+* Kernel + GUI interaction tests: GUI loads models and starts simulation and compares results 
+* No automated E2E tests
 
 ## Automated testing
 ![](images/test_diamond.jpg){fig-align="center" width="600"}
