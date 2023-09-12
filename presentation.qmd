@@ -91,7 +91,7 @@ float Q_rsqrt( float number )
 :::
 
 ## Challenges III: sensitivity vs. specificity
-* Sensitivity: if something is broken at least on test complains
+* Sensitivity: if something is broken at least one test complains
 * Specificity: if something is broken only a few tests complain
 * Usually contradictory goals 
 
